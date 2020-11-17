@@ -42,7 +42,6 @@ public class MiniGUI {
          * Handlers
          */
         write.addActionListener(new ActionListener() {
-            @Override
             public void actionPerformed(final ActionEvent e) {
                 System.out.println(rng.nextInt());
             }
