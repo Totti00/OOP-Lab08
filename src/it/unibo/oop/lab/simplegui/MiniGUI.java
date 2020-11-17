@@ -44,9 +44,9 @@ public class MiniGUI {
          * Es 01.02
          */
         final JPanel mioPanel = new JPanel();
-        mioPanel.setLayout(new BoxLayout(mioPanel, BoxLayout.PAGE_AXIS));
+        mioPanel.setLayout(new BoxLayout(mioPanel, BoxLayout.X_AXIS));
         final JButton write = new JButton("Random");
-        mioPanel.add(write, BorderLayout.CENTER);
+        mioPanel.add(write);
         canvas.add(mioPanel, BorderLayout.CENTER);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         /*
