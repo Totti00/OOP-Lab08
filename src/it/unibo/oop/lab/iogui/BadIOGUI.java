@@ -5,10 +5,17 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.io.PrintStream;
+import java.nio.file.Files;
+import java.util.List;
 import java.util.Random;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -35,17 +42,28 @@ public class BadIOGUI {
      * 
      */
     public BadIOGUI() {
+        /*
+         * Es 01.01
+         */
         final JPanel canvas = new JPanel();
         canvas.setLayout(new BorderLayout());
-        final JButton write = new JButton("Write on file");
-        canvas.add(write, BorderLayout.CENTER);
         frame.setContentPane(canvas);
+        final JPanel mioPanel = new JPanel();
+        mioPanel.setLayout(new BoxLayout(mioPanel, BoxLayout.X_AXIS));
+        final JButton write = new JButton("Write");
+        mioPanel.add(write);
+        canvas.add(mioPanel, BorderLayout.CENTER);
+        /*
+         * Es 01.02
+         */
+        final JButton read = new JButton("Read");
+        mioPanel.add(read);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         /*
          * Handlers
          */
         write.addActionListener(new ActionListener() {
-            @Override
+
             public void actionPerformed(final ActionEvent e) {
                 /*
                  * This would be VERY BAD in a real application.
@@ -62,6 +80,29 @@ public class BadIOGUI {
                 }
             }
         });
+
+        /*
+         * Es 01.03
+         */
+        read.addActionListener(new ActionListener() {
+            public void actionPerformed(final ActionEvent e) {
+                /*
+                 * This would be VERY BAD in a real application.
+                 * 
+                 * This makes the Event Dispatch Thread (EDT) work on an I/O
+                 * operation. I/O operations may take a long time, during which
+                 * your UI becomes completely unresponsive.
+                 */
+                try {
+                    final List<String> line = Files.readAllLines(new File(PATH).toPath());
+                    for (final String p: line) {
+                        System.out.println(p);
+                    }
+                } catch (IOException error) {
+                    System.out.println(error);
+                }
+            }
+        });
     }
 
     private void display() {
@@ -73,10 +114,11 @@ public class BadIOGUI {
          * issue). It is MUCH better than manually specify the size of a window
          * in pixel: it takes into account the current resolution.
          */
-        final Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
+        /*final Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
         final int sw = (int) screen.getWidth();
         final int sh = (int) screen.getHeight();
-        frame.setSize(sw / PROPORTION, sh / PROPORTION);
+        frame.setSize(sw / PROPORTION, sh / PROPORTION);*/
+        frame.pack();
         /*
          * Instead of appearing at (0,0), upper left corner of the screen, this
          * flag makes the OS window manager take care of the default positioning
