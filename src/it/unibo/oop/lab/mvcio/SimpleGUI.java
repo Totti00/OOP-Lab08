@@ -50,7 +50,7 @@ public final class SimpleGUI {
         mioPanel.add(text);
         mioPanel.add(save, BorderLayout.SOUTH);
         frame.setContentPane(mioPanel);
-
+        
         save.addActionListener(new ActionListener() {
             public void actionPerformed(final ActionEvent e) {
                 SimpleGUI.this.controller.saveContent(text.getText());
