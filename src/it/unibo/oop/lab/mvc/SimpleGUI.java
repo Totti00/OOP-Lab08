@@ -1,9 +1,19 @@
 package it.unibo.oop.lab.mvc;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.Toolkit;
 
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+
+import it.unibo.oop.lab.mvcio2.SimpleGUIWithFileChooser;
 
 /**
  * A very simple program using a graphical interface.
@@ -12,6 +22,7 @@ import javax.swing.JFrame;
 public final class SimpleGUI {
 
     private final JFrame frame = new JFrame();
+    private final Controller controller = new ControllerImpl();
 
     /*
      * Once the Controller is done, implement this class in such a way that:
@@ -38,7 +49,35 @@ public final class SimpleGUI {
      * builds a new {@link SimpleGUI}.
      */
     public SimpleGUI() {
+        final JPanel panel = new JPanel(new BorderLayout());
+        final JPanel panelInf = new JPanel(new GridLayout(1, 2));
 
+        final JButton stampa = new JButton("Print");
+        final JButton crono = new JButton("Show History");
+        final JTextArea areaText = new JTextArea();
+        final JTextField text = new JTextField();
+        frame.setContentPane(panel);
+
+        panel.add(text, BorderLayout.NORTH);
+        panel.add(areaText, BorderLayout.CENTER);
+
+        panelInf.add(stampa, BorderLayout.SOUTH);
+        panelInf.add(crono, BorderLayout.SOUTH);
+
+        panel.add(panelInf, BorderLayout.SOUTH);
+
+        stampa.addActionListener(e -> {
+            controller.setString(text.getText());
+            controller.correntString();
+        });
+
+        crono.addActionListener(e -> {
+            String finalString = "";
+            for (final String l: controller.historyString()) {
+                finalString += l + "\n";
+            }
+            areaText.setText(finalString);
+        });
         /*
          * Make the frame half the resolution of the screen. This very method is
          * enough for a single screen setup. In case of multiple monitors, the
@@ -49,6 +88,7 @@ public final class SimpleGUI {
          * MUCH better than manually specify the size of a window in pixel: it
          * takes into account the current resolution.
          */
+        frame.setDefaultCloseOperation(frame.EXIT_ON_CLOSE);
         final Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
         final int sw = (int) screen.getWidth();
         final int sh = (int) screen.getHeight();
@@ -60,6 +100,14 @@ public final class SimpleGUI {
          * on screen. Results may vary, but it is generally the best choice.
          */
         frame.setLocationByPlatform(true);
+    }
+
+    private void display() {
+        frame.setVisible(true);
+    }
+
+    public static void main(final String... args) {
+        new SimpleGUI().display();
     }
 
 }
