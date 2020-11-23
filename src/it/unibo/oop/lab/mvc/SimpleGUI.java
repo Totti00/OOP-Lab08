@@ -6,14 +6,10 @@ import java.awt.GridLayout;
 import java.awt.Toolkit;
 
 import javax.swing.JButton;
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-
-import it.unibo.oop.lab.mvcio2.SimpleGUIWithFileChooser;
 
 /**
  * A very simple program using a graphical interface.
